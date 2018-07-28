@@ -3,11 +3,12 @@ import { Switch, Route } from 'react-router-dom';
 import Dashboard from './component/Dashboard/Dashboard';
 import Wizard from './component/Wizard/Wizard';
 
-export default (
+export default(
     <Switch>
-        <Route exact path='/' component={Dashboard} />
         <Route path='/wizard' component={Wizard} />
+        <Route exact path='/' component={Dashboard} />
 
     </Switch>
 
 )
+

@@ -1,56 +1,53 @@
 import React, {Component} from 'react';
 import House from '../House/House';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+import './Dashboard.css';
 
 class Dashboard extends Component {
 
-    constructor(props){
-        super(props);
+    constructor(){
+        super();
 
         this.state = {
-            houseList: [
-                {
-                    name: 'House',
-                    address: '1800 Callme Lane'
-                },
-                {
-                    name: 'Mad Ludwigs Castle',
-                    address: 'Bavaria'
-                },
-                {
-                    name: 'Draculas Castle',
-                    address: 'Carpathia'
-                }
-            ],
+            houseList:[],
+            houseInfo:{
+              house_id: 0,
+              house_name: '',
+              house_address: '',
+              house_city: '',
+              house_state: '',
+              house_zipcode: '',
+              house_url: '',
+              house_mortgage: '',
+              house_rent: '',
+              buttonText:'Add House'
+            }
         }
 
         this.getHouses = this.getHouses.bind(this);
         this.deleteHouse = this.deleteHouse.bind(this);
     }
 
-
-    componentWillMount(){
+    componentDidMount(){
         this.getHouses()
     }
 
-    getHouses(){
-        axios
-            .get('/api/houses')
-            .then(response => {
-                    this.setState({
-                        houseList: response.data,
-                    });
-                }
-            )
+    getHouses = () => {
+        axios.get('/api/houses')
+        .then(response => {
+            console.log(response.data)
+            this.setState({
+                houseList: response.data,
+            });
+        });
     }
-
 
     deleteHouse(id){
         axios
             .delete('/api/houses/' + id)
             .then(response => {
-                this.props.getHouses()
+                this.getHouses()
             })
             .catch(err => {
                 console.warn("House could not be deleted", err)
@@ -63,24 +60,26 @@ class Dashboard extends Component {
 
     render(){
         return(
-            <div>
+            <div className="dashboard-container">
 
-                {this.state.houseList
-                    .map((item) => {
-                        return(
-                            <House {...item} 
-                                key={item.id}   
-                                houseList={this.houseList}
-                                deleteHouse={this.deleteHouse}
-                            >
-                                <button>Delete</button>
-                            </House>
-                        )
-                    })
-                }
 
-                <Link to='/wizard'><button>Add New Property</button></Link>
-                <Link to='/'><button>Cancel</button></Link>
+                <div className="house-list">
+                    {this.state.houseList
+                        .map((item) => {
+                            return(
+                                <House {...item}
+                                    className="house-box"
+                                    key={item.id}   
+                                    deleteHouse={this.deleteHouse}
+                                />
+                            )
+                        })
+                    }
+
+                    <Link to='/wizard'><button className="add-button">Add New Property</button></Link>
+
+                </div>
+
 
             </div>
 
@@ -92,3 +91,20 @@ class Dashboard extends Component {
 }
 
 export default Dashboard;
+
+
+
+
+
+
+
+    
+    // handleSubmit(e){
+    //   e.preventDefault();
+ 
+    //   axios
+    //     .post('/api/houses')
+    //       .then(res => {
+    //         console.log(res);
+    //       })
+    // }

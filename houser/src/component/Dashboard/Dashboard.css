@@ -1,0 +1,18 @@
+.Dashboard {
+    justify-content: center;
+}
+
+.dashboard-container {
+    width: 50%;
+    min-width: 400px;
+    height: 100%;
+    background-color: #e5f4ec;
+}
+
+/* .house-box {
+    background-color: #DEDEDE;
+} */
+
+.add-button {
+    background-color: #8aea92;
+}

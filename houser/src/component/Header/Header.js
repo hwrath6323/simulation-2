@@ -6,8 +6,9 @@ const Header = () => {
         return(
 
             <div className="header-container">
-
-                <Link to='/'>Header</Link>
+                <Link to='/'>
+                    Houser
+                </Link>
 
             </div>
 

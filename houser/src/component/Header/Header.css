@@ -3,4 +3,11 @@
     height: 100px;
     background-color: #519872;
     margin-bottom: 30px;
+    text-decoration: none;
+    color: white;
+}
+
+Link {
+    text-decoration: none;
+    color: white;
 }

@@ -1,31 +1,44 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+import {Link} from 'react-router-dom';
 
 class Wizard extends Component {
 
 
     inputs = [
         {
-            label: "Name",
-            property: "name"
+            label: "Property Name",
+            property: "house_name"
         },
         {
             label: "Address",
-            property: "address"
+            property: "house_address"
         },
         {
             label: "City",
-            property: "city"
+            property: "house_city"
         },
         {
             label: "State",
-            property: "state"
+            property: "house_state"
         },
         {
             label: "Zip Code",
-            property: "zipcode"
+            property: "house_zipcode"
+        },
+        {
+            label: "Image URL",
+            property: "house_img"
+        },
+        {
+            label: "Monthly Mortgage Amount",
+            property: "house_mortgage"
+        },
+        {
+            label: "Desired Monthly Rent",
+            property: "house_rent"
         }
-    ]
+    ];
 
 
     constructor(props){
@@ -36,13 +49,35 @@ class Wizard extends Component {
         this.state = {
             ...inputProperties,
             houseList: props.getHouses,
-
-            name: '',
-            address: '',
-            city: '',
-            state: '',
-            zipcode: ''
+            houses: [ ],
+            house_name: '',
+            house_address: '',
+            house_city: '',
+            house_state: '',
+            house_zipcode: '',
+            house_img: '',
+            house_mortgage: '',
+            house_rent: '',
+            house_id: 0,
+            // selectHouse: props.selectHouse,
+            // editHouse: props.selectHouse,
         }
+
+        this.baseState = this.state;
+    }
+
+    componentWillReceiveProps(nextProps){
+        this.setState({
+            house_name: nextProps.formInfo.house_name,
+            house_address: nextProps.formInfo.house_price,
+            house_city: nextProps.formInfo.house_city,
+            house_state: nextProps.formInfo.house_state,
+            house_zipcode: nextProps.formInfo.house_zipcode,
+            house_img: nextProps.formInfo.house_img,
+            house_mortgage: nextProps.formInfo.house_mortgage,
+            house_rent: nextProps.formInfo.house_rent,
+            house_id: nextProps.formInfo.id,
+        })
     }
 
     handleChange(e, name) {
@@ -59,24 +94,41 @@ class Wizard extends Component {
         }, {});
     }
 
+    // resetForm(e){
+    //     this.setState(this.baseState)
+    // }
+
     handleSubmit(e){
         e.preventDefault();
-        const {name, address, city, state, zipcode} = this.state;
-        const newHouse = {name, address, city, state, zipcode};
+        const {house_id, house_name, house_address, house_city, house_state, house_zipcode, house_img, house_mortgage, house_rent} = this.state;
+        const newHouse = {house_id, house_name, house_address, house_city, house_state, house_zipcode, house_img, house_mortgage, house_rent};
 
-        if(this.props.onSubmit){
-            this.props.onSubmit(e, newHouse)
+        if(this.onSubmit){
+            this.onSubmit(e, newHouse)
         }
-        
-        return axios
+
+        // if(this.state.house_id > 0){
+        //     axios  
+        //         .put('/api/houses/' + this.state.id, newHouse)
+        //         .then(response => {
+        //             this.props.getHouseList()
+        //         })
+        //         .then(() => this.props.getHouses())
+        //         .catch(err => {
+        //             console.warn("House could not be updated", err)
+        //         })
+        // } else {        
+            axios
             .post('/api/houses', newHouse)
             .then(response => {
+                this.props.getHouseList()
                 this.props.getHouses()
                 this.setState(this.refreshState());
             })
             .catch(err => {
                 console.warn('Could not add house', err)
             })
+        // }
     }
 
 
@@ -93,29 +145,35 @@ class Wizard extends Component {
                             onChange={e => this.handleChange(e, input.property)}
                             name={input.property} />
                     </label>
-
                 </div>
             </div>
         ));
 
+        // let url;
+        // if(this.state.house_img){
+        //     url = this.state.house_img
+        // }
+
+
         return(
-
             <div>
-
                 <form className='house-form'>
-                
-                    {inputs}
+                    <div className="input-box">
+                        <Link to='/'>
+                            <button>Cancel</button>
+                        </Link>
 
-                    <button onClick={e => this.handleSubmit(e)}>Complete</button>
-                
+                        {inputs}
+
+                        <button 
+                            type='submit'
+                            onClick={e => this.handleSubmit(e)}
+                        >Complete</button>
+                    </div>
                 </form>
-
-
             </div>
         )
-    }
-
-
+    };
 }
 
 export default Wizard;
