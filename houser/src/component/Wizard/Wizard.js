@@ -1,153 +1,158 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import {Link} from 'react-router-dom';
+import {Route} from 'react-router-dom';
+
+import StepOne from './StepOne';
+import StepTwo from './StepTwo';
+import StepThree from './StepThree';
 
 class Wizard extends Component {
 
 
-    inputs = [
-        {
-            label: "Property Name",
-            property: "house_name"
-        },
-        {
-            label: "Address",
-            property: "house_address"
-        },
-        {
-            label: "City",
-            property: "house_city"
-        },
-        {
-            label: "State",
-            property: "house_state"
-        },
-        {
-            label: "Zip Code",
-            property: "house_zipcode"
-        },
-        {
-            label: "Image URL",
-            property: "house_img"
-        },
-        {
-            label: "Monthly Mortgage Amount",
-            property: "house_mortgage"
-        },
-        {
-            label: "Desired Monthly Rent",
-            property: "house_rent"
-        }
-    ];
+    // inputs = [
+    //     {
+    //         label: "Property Name",
+    //         property: "house_name"
+    //     },
+    //     {
+    //         label: "Address",
+    //         property: "house_address"
+    //     },
+    //     {
+    //         label: "City",
+    //         property: "house_city"
+    //     },
+    //     {
+    //         label: "State",
+    //         property: "house_state"
+    //     },
+    //     {
+    //         label: "Zip Code",
+    //         property: "house_zipcode"
+    //     },
+    //     {
+    //         label: "Image URL",
+    //         property: "house_img"
+    //     },
+    //     {
+    //         label: "Monthly Mortgage Amount",
+    //         property: "house_mortgage"
+    //     },
+    //     {
+    //         label: "Desired Monthly Rent",
+    //         property: "house_rent"
+    //     }
+    // ];
 
 
-    constructor(props){
-        super(props);
+    // constructor(props){
+    //     super(props);
 
-        const inputProperties = this.refreshState();
+    //     const inputProperties = this.refreshState();
 
-        this.state = {
-            ...inputProperties,
-            houseList: props.getHouses,
-            houses: [ ],
-            house_name: '',
-            house_address: '',
-            house_city: '',
-            house_state: '',
-            house_zipcode: '',
-            house_img: '',
-            house_mortgage: '',
-            house_rent: '',
-            house_id: 0,
-            // selectHouse: props.selectHouse,
-            // editHouse: props.selectHouse,
-        }
+    //     this.state = {
+    //         ...inputProperties,
+    //         houseList: props.getHouses,
+    //         houses: [ ],
+    //         house_name: '',
+    //         house_address: '',
+    //         house_city: '',
+    //         house_state: '',
+    //         house_zipcode: '',
+    //         house_img: '',
+    //         house_mortgage: '',
+    //         house_rent: '',
+    //         house_id: 0,
+    //         // selectHouse: props.selectHouse,
+    //         // editHouse: props.selectHouse,
+    //     }
 
-        this.baseState = this.state;
-    }
-
-    componentWillReceiveProps(nextProps){
-        this.setState({
-            house_name: nextProps.formInfo.house_name,
-            house_address: nextProps.formInfo.house_price,
-            house_city: nextProps.formInfo.house_city,
-            house_state: nextProps.formInfo.house_state,
-            house_zipcode: nextProps.formInfo.house_zipcode,
-            house_img: nextProps.formInfo.house_img,
-            house_mortgage: nextProps.formInfo.house_mortgage,
-            house_rent: nextProps.formInfo.house_rent,
-            house_id: nextProps.formInfo.id,
-        })
-    }
-
-    handleChange(e, name) {
-        const value = e.target.value;
-        this.setState({[name]: value})
-    }
-
-    refreshState(){
-        return this.inputs.reduce((map, input) => {
-            return {
-                ...map,
-                [input.property] : ''
-            }
-        }, {});
-    }
-
-    // resetForm(e){
-    //     this.setState(this.baseState)
+    //     this.baseState = this.state;
     // }
 
-    handleSubmit(e){
-        e.preventDefault();
-        const {house_id, house_name, house_address, house_city, house_state, house_zipcode, house_img, house_mortgage, house_rent} = this.state;
-        const newHouse = {house_id, house_name, house_address, house_city, house_state, house_zipcode, house_img, house_mortgage, house_rent};
+    // componentWillReceiveProps(nextProps){
+    //     this.setState({
+    //         house_name: nextProps.formInfo.house_name,
+    //         house_address: nextProps.formInfo.house_price,
+    //         house_city: nextProps.formInfo.house_city,
+    //         house_state: nextProps.formInfo.house_state,
+    //         house_zipcode: nextProps.formInfo.house_zipcode,
+    //         house_img: nextProps.formInfo.house_img,
+    //         house_mortgage: nextProps.formInfo.house_mortgage,
+    //         house_rent: nextProps.formInfo.house_rent,
+    //         house_id: nextProps.formInfo.id,
+    //     })
+    // }
 
-        if(this.onSubmit){
-            this.onSubmit(e, newHouse)
-        }
+    // handleChange(e, name) {
+    //     const value = e.target.value;
+    //     this.setState({[name]: value})
+    // }
 
-        // if(this.state.house_id > 0){
-        //     axios  
-        //         .put('/api/houses/' + this.state.id, newHouse)
-        //         .then(response => {
-        //             this.props.getHouseList()
-        //         })
-        //         .then(() => this.props.getHouses())
-        //         .catch(err => {
-        //             console.warn("House could not be updated", err)
-        //         })
-        // } else {        
-            axios
-            .post('/api/houses', newHouse)
-            .then(response => {
-                this.props.getHouseList()
-                this.props.getHouses()
-                this.setState(this.refreshState());
-            })
-            .catch(err => {
-                console.warn('Could not add house', err)
-            })
-        // }
-    }
+    // refreshState(){
+    //     return this.inputs.reduce((map, input) => {
+    //         return {
+    //             ...map,
+    //             [input.property] : ''
+    //         }
+    //     }, {});
+    // }
+
+    // // resetForm(e){
+    // //     this.setState(this.baseState)
+    // // }
+
+    // handleSubmit(e){
+    //     e.preventDefault();
+    //     const {house_id, house_name, house_address, house_city, house_state, house_zipcode, house_img, house_mortgage, house_rent} = this.state;
+    //     const newHouse = {house_id, house_name, house_address, house_city, house_state, house_zipcode, house_img, house_mortgage, house_rent};
+
+    //     if(this.onSubmit){
+    //         this.onSubmit(e, newHouse)
+    //     }
+
+    //     // if(this.state.house_id > 0){
+    //     //     axios  
+    //     //         .put('/api/houses/' + this.state.id, newHouse)
+    //     //         .then(response => {
+    //     //             this.props.getHouseList()
+    //     //         })
+    //     //         .then(() => this.props.getHouses())
+    //     //         .catch(err => {
+    //     //             console.warn("House could not be updated", err)
+    //     //         })
+    //     // } else {        
+    //         axios
+    //         .post('/api/houses', newHouse)
+    //         .then(response => {
+    //             this.props.getHouseList()
+    //             this.props.getHouses()
+    //             this.setState(this.refreshState());
+    //         })
+    //         .catch(err => {
+    //             console.warn('Could not add house', err)
+    //         })
+    //     // }
+    // }
 
 
     render(){
-        const inputs = this.inputs
-        .map((input, i) => (
-            <div key={`new-house-${i}`}>
-                <div>
-                    <label>
-                        {input.label}:
-                        <br /><input
-                            type='text'
-                            value={this.state[input.property]}
-                            onChange={e => this.handleChange(e, input.property)}
-                            name={input.property} />
-                    </label>
-                </div>
-            </div>
-        ));
+
+        // const inputs = this.inputs
+        // .map((input, i) => (
+        //     <div key={`new-house-${i}`}>
+        //         <div>
+        //             <label>
+        //                 {input.label}:
+        //                 <br /><input
+        //                     type='text'
+        //                     value={this.state[input.property]}
+        //                     onChange={e => this.handleChange(e, input.property)}
+        //                     name={input.property} />
+        //             </label>
+        //         </div>
+        //     </div>
+        // ));
 
         // let url;
         // if(this.state.house_img){
@@ -157,7 +162,10 @@ class Wizard extends Component {
 
         return(
             <div>
-                <form className='house-form'>
+                <Route path='/wizard/step1' component={StepOne} />
+                <Route path='/wizard/step2' component={StepTwo} />
+                <Route path='/wizard/step3' component={StepThree} />
+                {/* <form className='house-form'>
                     <div className="input-box">
                         <Link to='/'>
                             <button>Cancel</button>
@@ -170,7 +178,7 @@ class Wizard extends Component {
                             onClick={e => this.handleSubmit(e)}
                         >Complete</button>
                     </div>
-                </form>
+                </form> */}
             </div>
         )
     };

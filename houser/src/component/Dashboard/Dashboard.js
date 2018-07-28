@@ -76,7 +76,7 @@ class Dashboard extends Component {
                         })
                     }
 
-                    <Link to='/wizard'><button className="add-button">Add New Property</button></Link>
+                    <Link to='/wizard/step1'><button className="add-button">Add New Property</button></Link>
 
                 </div>
 

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
 
-class Wizard extends Component {
+class StepOne extends Component {
 
 
     inputs = [
@@ -25,18 +25,6 @@ class Wizard extends Component {
         {
             label: "Zip Code",
             property: "house_zipcode"
-        },
-        {
-            label: "Image URL",
-            property: "house_img"
-        },
-        {
-            label: "Monthly Mortgage Amount",
-            property: "house_mortgage"
-        },
-        {
-            label: "Desired Monthly Rent",
-            property: "house_rent"
         }
     ];
 
@@ -48,17 +36,16 @@ class Wizard extends Component {
 
         this.state = {
             ...inputProperties,
-            houseList: props.getHouses,
             houses: [ ],
             house_name: '',
             house_address: '',
             house_city: '',
             house_state: '',
             house_zipcode: '',
-            house_img: '',
-            house_mortgage: '',
-            house_rent: '',
-            house_id: 0,
+            // house_img: '',
+            // house_mortgage: '',
+            // house_rent: '',
+            // house_id: 0,
             // selectHouse: props.selectHouse,
             // editHouse: props.selectHouse,
         }
@@ -73,10 +60,6 @@ class Wizard extends Component {
             house_city: nextProps.formInfo.house_city,
             house_state: nextProps.formInfo.house_state,
             house_zipcode: nextProps.formInfo.house_zipcode,
-            house_img: nextProps.formInfo.house_img,
-            house_mortgage: nextProps.formInfo.house_mortgage,
-            house_rent: nextProps.formInfo.house_rent,
-            house_id: nextProps.formInfo.id,
         })
     }
 
@@ -98,38 +81,38 @@ class Wizard extends Component {
     //     this.setState(this.baseState)
     // }
 
-    handleSubmit(e){
-        e.preventDefault();
-        const {house_id, house_name, house_address, house_city, house_state, house_zipcode, house_img, house_mortgage, house_rent} = this.state;
-        const newHouse = {house_id, house_name, house_address, house_city, house_state, house_zipcode, house_img, house_mortgage, house_rent};
+    // handleSubmit(e){
+    //     e.preventDefault();
+    //     const {house_id, house_name, house_address, house_city, house_state, house_zipcode, house_img, house_mortgage, house_rent} = this.state;
+    //     const newHouse = {house_id, house_name, house_address, house_city, house_state, house_zipcode, house_img, house_mortgage, house_rent};
 
-        if(this.onSubmit){
-            this.onSubmit(e, newHouse)
-        }
+    //     if(this.onSubmit){
+    //         this.onSubmit(e, newHouse)
+    //     }
 
-        // if(this.state.house_id > 0){
-        //     axios  
-        //         .put('/api/houses/' + this.state.id, newHouse)
-        //         .then(response => {
-        //             this.props.getHouseList()
-        //         })
-        //         .then(() => this.props.getHouses())
-        //         .catch(err => {
-        //             console.warn("House could not be updated", err)
-        //         })
-        // } else {        
-            axios
-            .post('/api/houses', newHouse)
-            .then(response => {
-                this.props.getHouseList()
-                this.props.getHouses()
-                this.setState(this.refreshState());
-            })
-            .catch(err => {
-                console.warn('Could not add house', err)
-            })
-        // }
-    }
+    //     // if(this.state.house_id > 0){
+    //     //     axios  
+    //     //         .put('/api/houses/' + this.state.id, newHouse)
+    //     //         .then(response => {
+    //     //             this.props.getHouseList()
+    //     //         })
+    //     //         .then(() => this.props.getHouses())
+    //     //         .catch(err => {
+    //     //             console.warn("House could not be updated", err)
+    //     //         })
+    //     // } else {        
+    //         axios
+    //         .post('/api/houses', newHouse)
+    //         .then(response => {
+    //             this.props.getHouseList()
+    //             this.props.getHouses()
+    //             this.setState(this.refreshState());
+    //         })
+    //         .catch(err => {
+    //             console.warn('Could not add house', err)
+    //         })
+    //     // }
+    // }
 
 
     render(){
@@ -165,10 +148,9 @@ class Wizard extends Component {
 
                         {inputs}
 
-                        <button 
-                            type='submit'
-                            onClick={e => this.handleSubmit(e)}
-                        >Complete</button>
+                        <Link to='/wizard/step2'>
+                            <button>Next Step</button>
+                        </Link>
                     </div>
                 </form>
             </div>
@@ -176,4 +158,4 @@ class Wizard extends Component {
     };
 }
 
-export default Wizard;
+export default StepOne;

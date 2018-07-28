@@ -2,34 +2,10 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
 
-class Wizard extends Component {
+class StepThree extends Component {
 
 
     inputs = [
-        {
-            label: "Property Name",
-            property: "house_name"
-        },
-        {
-            label: "Address",
-            property: "house_address"
-        },
-        {
-            label: "City",
-            property: "house_city"
-        },
-        {
-            label: "State",
-            property: "house_state"
-        },
-        {
-            label: "Zip Code",
-            property: "house_zipcode"
-        },
-        {
-            label: "Image URL",
-            property: "house_img"
-        },
         {
             label: "Monthly Mortgage Amount",
             property: "house_mortgage"
@@ -48,19 +24,8 @@ class Wizard extends Component {
 
         this.state = {
             ...inputProperties,
-            houseList: props.getHouses,
-            houses: [ ],
-            house_name: '',
-            house_address: '',
-            house_city: '',
-            house_state: '',
-            house_zipcode: '',
-            house_img: '',
             house_mortgage: '',
             house_rent: '',
-            house_id: 0,
-            // selectHouse: props.selectHouse,
-            // editHouse: props.selectHouse,
         }
 
         this.baseState = this.state;
@@ -68,15 +33,8 @@ class Wizard extends Component {
 
     componentWillReceiveProps(nextProps){
         this.setState({
-            house_name: nextProps.formInfo.house_name,
-            house_address: nextProps.formInfo.house_price,
-            house_city: nextProps.formInfo.house_city,
-            house_state: nextProps.formInfo.house_state,
-            house_zipcode: nextProps.formInfo.house_zipcode,
-            house_img: nextProps.formInfo.house_img,
             house_mortgage: nextProps.formInfo.house_mortgage,
             house_rent: nextProps.formInfo.house_rent,
-            house_id: nextProps.formInfo.id,
         })
     }
 
@@ -165,10 +123,15 @@ class Wizard extends Component {
 
                         {inputs}
 
-                        <button 
+                        <Link to='/wizard/step2'>
+                            <button>Previous Step</button>
+                        </Link>
+                        <button
                             type='submit'
-                            onClick={e => this.handleSubmit(e)}
-                        >Complete</button>
+                            // onClick={this.handleSubmit()}
+                        >
+                            Complete
+                        </button>
                     </div>
                 </form>
             </div>
@@ -176,4 +139,4 @@ class Wizard extends Component {
     };
 }
 
-export default Wizard;
+export default StepThree;
